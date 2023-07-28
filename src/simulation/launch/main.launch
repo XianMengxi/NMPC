@@ -1,0 +1,30 @@
+<launch>
+<!--加载参数 -->
+    <rosparam file="$(find simulation)/config/controller.yaml" command="load"/>
+<!--加载控制器插件 -->
+    <node name="controller_spawner"
+        pkg="controller_manager"
+        type="spawner"
+        respawn="false"
+        output="screen"
+        ns="/cartpole"
+        args="joint_state_controller cart_effort_controller"/>
+<!-- 启动gazebo仿真环境并且加载空世界 -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="false" />
+        <arg name="use_sim_time" value="true" />
+        <arg name="gui" value="true" />
+        <arg name="recording" value="false" />
+        <arg name="debug" value="false" />
+    </include>
+<!-- 加载机器人模型到robot_description，包含了机器人urdf内的完整内容 -->
+    <param name="robot_description" textfile="$(find simulation)/urdf/cartpole.urdf"/>
+
+    <param name="config_file" value="$(find simulation)/config/config.info"/>
+    <param name="urdf_file" value="$(find simulation)/urdf/cartpole.urdf"/>
+
+<!-- 利用robot_description变量在gazebo_ros包生成 -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model cartpole -param robot_description" />
+
+    <node name="simulation_node" pkg="simulation" type="simulation_node" />
+</launch>

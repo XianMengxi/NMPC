@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<robot name="cartpole">
+  <link name="world" />
+  <joint name="world_to_rail" type="fixed">
+    <parent link="world" />
+    <child link="rail" />
+    <origin xyz="0 0 3" rpy="0 0 0" />
+  </joint>
+  <link name="slider">
+    <visual>
+      <geometry>
+        <box size="0.2 0.05 0.05" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.0001" />
+    </inertial>
+  </link>
+
+  <link name="pendulum1">
+    <visual>
+      <geometry>
+        <box size="0.025 0.025 1.0" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.5" />
+      <material name="grey">
+        <color rgba="0.75 0.75 0.75 0.8" />
+      </material>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.5" />
+      <mass value="0.2" />
+      <inertia ixx="0.0000001" ixy="0.0" ixz="0.0" iyy="0.01667" iyz="0.0" izz="0.0000001" />
+    </inertial>
+  </link>
+
+  <link name="pendulum2">
+    <visual>
+      <geometry>
+        <box size="0.0125 0.0125 0.5" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.25" />
+      <material name="grey">
+        <color rgba="0.75 0.75 0.75 0.8" />
+      </material>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.25" />
+      <mass value="0.2" />
+      <inertia ixx="0.0000001" ixy="0.0" ixz="0.0" iyy="0.01667" iyz="0.0" izz="0.0000001" />
+    </inertial>
+  </link>
+
+  <link name="pendulum3">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.5" />
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.25" />
+      <material name="grey">
+        <color rgba="0.75 0.75 0.75 0.8" />
+      </material>
+    </visual>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.25" />
+      <mass value="0.2" />
+      <inertia ixx="0.0000001" ixy="0.0" ixz="0.0" iyy="0.01667" iyz="0.0" izz="0.0000001" />
+    </inertial>
+  </link>
+
+  <link name="rail">
+    <visual>
+      <geometry>
+        <box size="50.0 0.02 0.02" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1.0" />
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <joint name="joint_slider_rail" type="prismatic">
+    <parent link="rail" />
+    <child link="slider" />
+    <limit effort="100000.0" lower="-25.0" upper="25.0" velocity="50" />
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <joint name="joint_pendulum1_slider" type="revolute">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.0 0.0 0" rpy="0.0 0.0 0.0" />
+    <parent link="slider" />
+    <child link="pendulum1" />
+    <limit effort="100000.0" lower="-6.28" upper="6.28" velocity="50" />
+    <dynamics damping="0.0" friction="0.0" />
+  </joint>
+
+  <joint name="joint_pendulum1_pendulum2" type="revolute">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.0 0.0 1." rpy="0.0 0.0 0.0" />
+    <parent link="pendulum1" />
+    <child link="pendulum2" />
+    <limit effort="100000.0" lower="-6.28" upper="6.28" velocity="50" />
+    <dynamics damping="0.0" friction="0.0" />
+  </joint>
+
+  <joint name="joint_pendulum2_pendulum3" type="revolute">
+    <axis xyz="0 1 0" />
+    <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 0.0" />
+    <parent link="pendulum2" />
+    <child link="pendulum3" />
+    <limit effort="100000.0" lower="-6.28" upper="6.28" velocity="50" />
+    <dynamics damping="0.0" friction="0.0" />
+  </joint>
+  <!-- gazebo插件：定义滑杆到滑块的gazebo平移 -->
+  <transmission name="slider_to_rail_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_slider_rail">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_slider_rail_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+  </transmission>
+
+  <transmission name="joint_pendulum_slider_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_pendulum1_slider">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_pendulum_slider_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+  </transmission>
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/cartpole</robotNamespace>
+        </plugin>
+    </gazebo>
+</robot>
+

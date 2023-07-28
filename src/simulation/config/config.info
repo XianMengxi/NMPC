@@ -1,0 +1,69 @@
+; state weight matrix
+Q
+{
+  (0,0)  5.0   ; x
+  (1,1)  5.0   ; theta1
+  (2,2)  5.0   ; theta2
+  (3,3)  5.0   ; theta3
+  (4,4)  1.0   ; x_dot
+  (5,5)  1.0   ; theta1_dot
+  (6,6)  1.0   ; theta2_dot
+  (7,7)  1.0   ; theta3_dot
+}
+; control weight matrix
+R
+{
+  (0,0)  0.1
+}
+
+Q_final
+{
+  (0,0)  5.0   ; x
+  (1,1)  5.0   ; theta1
+  (2,2)  5.0   ; theta2
+  (3,3)  5.0   ; theta3
+  (4,4)  1.0   ; x_dot
+  (5,5)  1.0   ; theta1_dot
+  (6,6)  1.0   ; theta2_dot
+  (7,7)  1.0   ; theta3_dot
+}
+
+StateDim 8
+InputDim 1
+MaxForce 20
+
+MaxForceConstraintPenalty
+{
+  scale 1
+  stepSize 2
+}
+
+ModelCompileSettings
+{
+  modelFolder /home/zhou/Documents/nmpc/src/simulation/urdf
+  recompile false
+}
+
+InitState
+{
+  (0,0)  0.0   ; x
+  (0,1)  0.0   ; theta1
+  (0,2)  0.0   ; theta2
+  (0,3)  0.0   ; theta3
+  (0,4)  0.0   ; x_dot
+  (0,5)  0.0   ; theta1_dot
+  (0,6)  0.0   ; theta2_dot
+  (0,7)  0.0   ; theta3_dot
+}
+
+FinalState
+{
+  (0,0)  0.0   ; x
+  (0,1)  0.0   ; theta1
+  (0,2)  0.0   ; theta2
+  (0,3)  0.0   ; theta3
+  (0,4)  0.0   ; x_dot
+  (0,5)  0.0   ; theta1_dot
+  (0,6)  0.0   ; theta2_dot
+  (0,7)  0.0   ; theta3_dot
+}

@@ -1,0 +1,11 @@
+cartpole:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 500
+    joints:
+      - joint_slider_rail
+      - joint_pendulum1_slider
+
+  cart_effort_controller:
+    type: effort_controllers/JointEffortController
+    joint: joint_slider_rail
