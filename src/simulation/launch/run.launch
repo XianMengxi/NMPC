@@ -1,0 +1,4 @@
+<launch>
+<!-- 利用robot_description变量在gazebo_ros包生成 -->
+    <node name="simulation_node" pkg="simulation" type="simulation_node"/>
+</launch>

@@ -137,6 +137,26 @@
         </actuator>
   </transmission>
 
+  <transmission name="joint_pendulum1_pendulum2_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_pendulum1_pendulum2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_pendulum1_pendulum2_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+  </transmission>
+
+  <transmission name="joint_pendulum2_pendulum3_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="joint_pendulum2_pendulum3">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="joint_pendulum2_pendulum3_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+  </transmission>
+
     <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
             <robotNamespace>/cartpole</robotNamespace>

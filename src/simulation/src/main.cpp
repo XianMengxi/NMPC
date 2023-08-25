@@ -170,14 +170,14 @@ int main(int argc, char **argv)
     {
         observation.time = ros::Time::now().toSec() - startTime.toSec();
         observation.state = vector_t::Zero(stateDim);
-        // observation.state << msg->position[0],
-        //     msg->position[1],
-        //     msg->position[2],
-        //     msg->position[3],
-        //     msg->velocity[0],
-        //     msg->velocity[1],
-        //     msg->velocity[2],
-        //     msg->velocity[3];
+        observation.state << msg->position[0],
+            msg->position[1],
+            msg->position[2],
+            msg->position[3],
+            msg->velocity[0],
+            msg->velocity[1],
+            msg->velocity[2],
+            msg->velocity[3];
         observation.input = vector_t::Zero(inputDim);
     });
 
@@ -210,6 +210,7 @@ int main(int argc, char **argv)
     {
         runningCheck.sleep();
         ros::spinOnce();
+        std::cout << "time is zero" << std::endl;
     }
 
     mpcMrtInterface.setCurrentObservation(observation);

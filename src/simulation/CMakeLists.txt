@@ -20,7 +20,6 @@ find_package(catkin REQUIRED COMPONENTS
     ocs2_msgs
     ocs2_mpc
     ocs2_pinocchio_interface
-
     )
 
 ## System dependencies are found with CMake's conventions

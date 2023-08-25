@@ -2,9 +2,9 @@
 Q
 {
   (0,0)  5.0   ; x
-  (1,1)  5.0   ; theta1
-  (2,2)  5.0   ; theta2
-  (3,3)  5.0   ; theta3
+  (1,1)  1.0   ; theta1
+  (2,2)  1.0   ; theta2
+  (3,3)  1.0   ; theta3
   (4,4)  1.0   ; x_dot
   (5,5)  1.0   ; theta1_dot
   (6,6)  1.0   ; theta2_dot
@@ -19,12 +19,12 @@ R
 Q_final
 {
   (0,0)  5.0   ; x
-  (1,1)  5.0   ; theta1
-  (2,2)  5.0   ; theta2
+  (1,1)  20.0   ; theta1
+  (2,2)  40.0   ; theta2
   (3,3)  5.0   ; theta3
   (4,4)  1.0   ; x_dot
   (5,5)  1.0   ; theta1_dot
-  (6,6)  1.0   ; theta2_dot
+  (6,6)  1.0  ; theta2_dot
   (7,7)  1.0   ; theta3_dot
 }
 
@@ -34,36 +34,98 @@ MaxForce 20
 
 MaxForceConstraintPenalty
 {
-  scale 1
-  stepSize 2
+  scale 0.1
+  stepSize 1.0
 }
 
 ModelCompileSettings
 {
   modelFolder /home/zhou/Documents/nmpc/src/simulation/urdf
-  recompile false
+  recompile true
 }
 
 InitState
 {
   (0,0)  0.0   ; x
-  (0,1)  0.0   ; theta1
-  (0,2)  0.0   ; theta2
-  (0,3)  0.0   ; theta3
-  (0,4)  0.0   ; x_dot
-  (0,5)  0.0   ; theta1_dot
-  (0,6)  0.0   ; theta2_dot
-  (0,7)  0.0   ; theta3_dot
+  (1,0)  0.0   ; theta1
+  (2,0)  0.0   ; theta2
+  (3,0)  0.0   ; theta3
+  (4,0)  0.0   ; x_dot
+  (5,0)  0.0   ; theta1_dot
+  (6,0)  0.0   ; theta2_dot
+  (7,0)  0.0   ; theta3_dot
 }
 
 FinalState
 {
   (0,0)  0.0   ; x
-  (0,1)  0.0   ; theta1
-  (0,2)  0.0   ; theta2
-  (0,3)  0.0   ; theta3
-  (0,4)  0.0   ; x_dot
-  (0,5)  0.0   ; theta1_dot
-  (0,6)  0.0   ; theta2_dot
-  (0,7)  0.0   ; theta3_dot
+  (1,0)  0.0   ; theta1
+  (2,0)  0.0   ; theta2
+  (3,0)  0.0   ; theta3
+  (4,0)  0.0   ; x_dot
+  (5,0)  0.0   ; theta1_dot
+  (6,0)  0.0   ; theta2_dot
+  (7,0)  0.0   ; theta3_dot
+}
+
+; DDP settings
+ddp
+{
+  algorithm                      SLQ
+
+  nThreads                       1
+
+  maxNumIterations               1
+  minRelCost                     0.1
+  constraintTolerance            1e-3
+
+  displayInfo                    false
+  displayShortSummary            false
+  checkNumericalStability        false
+
+  AbsTolODE                      1e-9
+  RelTolODE                      1e-6
+  maxNumStepsPerSecond           100000
+  timeStep                       1e-2
+  backwardPassIntegratorType     ODE45
+
+  inequalityConstraintMu         100.0
+  inequalityConstraintDelta      1.1
+
+  preComputeRiccatiTerms         false
+
+  useFeedbackPolicy              false
+
+  strategy                       LINE_SEARCH
+  lineSearch
+  {
+    minStepLength                1e-3
+    maxStepLength                1.0
+    hessianCorrectionStrategy    EIGENVALUE_MODIFICATION
+    hessianCorrectionMultiple    1e-6
+  }
+}
+
+; Rollout settings
+rollout
+{
+  AbsTolODE                    1e-9
+  RelTolODE                    1e-6
+  timeStep                     1e-2
+  maxNumStepsPerSecond         100000
+  checkNumericalStability      false
+  integratorType               ODE45
+}
+
+; MPC settings
+mpc
+{
+  timeHorizon                 1.3   ; [s]
+  solutionTimeWindow          -1    ; maximum [s]
+  coldStart                   false
+
+  debugPrint                  false
+
+  mpcDesiredFrequency         50   ; [Hz]
+  mrtDesiredFrequency         500   ; [Hz]
 }

@@ -1,2 +1,2 @@
 simulation
--DCATKIN_DEVEL_PREFIX=/home/zhou/Documents/nmpc/devel -DCMAKE_INSTALL_PREFIX=/home/zhou/Documents/nmpc/install -G Unix Makefiles
+-DCMAKE_BUILD_TYPE=Debug -DCATKIN_DEVEL_PREFIX=/home/zhou/Documents/nmpc/devel -DCMAKE_INSTALL_PREFIX=/home/zhou/Documents/nmpc/install -G Unix Makefiles

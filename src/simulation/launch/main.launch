@@ -25,6 +25,4 @@
 
 <!-- 利用robot_description变量在gazebo_ros包生成 -->
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model cartpole -param robot_description" />
-
-    <node name="simulation_node" pkg="simulation" type="simulation_node" />
 </launch>

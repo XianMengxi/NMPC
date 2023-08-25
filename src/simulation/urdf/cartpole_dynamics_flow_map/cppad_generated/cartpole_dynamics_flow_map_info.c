@@ -5,7 +5,7 @@ void cartpole_dynamics_flow_map_info(const char** baseName,
                                      unsigned int* depCount) {
    *baseName = "double  d";
    *m = 8;
-   *n = 14;
+   *n = 10;
    *depCount = 1; // number of dependent array variables
    *indCount = 1; // number of independent array variables
 }
